@@ -19,6 +19,7 @@ func main() {
 
 func copySlice(num []int) {
 	var copiedSlice = make([]int, len(num), cap(num))
+	copy(copiedSlice, num)
 	fmt.Println(copiedSlice)
 	fmt.Println(cap(copiedSlice))
 }
