@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/wafiqpuyol/Go-Learning/api/internal/config"
+	"github.com/wafiqpuyol/Go-Learning/api/internal/http/handler/student"
 )
 
 func main() {
@@ -23,9 +24,8 @@ func main() {
 
 	// start router
 	router := http.NewServeMux()
-	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprint(w, "Hello, world!")
-	})
+	router.HandleFunc("GET /", student.Health())
+	router.HandleFunc("POST /students", student.New())
 	server := http.Server{
 		Addr:    cfg.HTTP_Server.Address,
 		Handler: router,
