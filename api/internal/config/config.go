@@ -9,13 +9,13 @@ import (
 )
 
 type HTTP_Server struct {
-	address string "yaml:address"
+	Address string `yaml:"address" env-required:"true"`
 }
 
 type Config struct {
-	env         string      `yaml:"env" env:"ENV" env-required:"true" env-default:"production"`
-	storage     string      `yaml:"storage" env-required:"true"`
-	http_server HTTP_Server `yaml:"http_server" env-required:"true"`
+	Env         string `yaml:"env" env:"ENV" env-required:"true" env-default:"production"`
+	Storage     string `yaml:"storage" env-required:"true"`
+	HTTP_Server `yaml:"http_server" env-required:"true"`
 }
 
 func MustLoad() *Config {
@@ -26,10 +26,9 @@ func MustLoad() *Config {
 
 	// reading flag
 	if configPath == "" {
-		flags := flag.String("config", "", "path to config file")
+		flags := flag.String("config_path", "", "path to config file")
 		flag.Parse()
 		configPath = *flags
-
 		if configPath == "" {
 			log.Fatal("config_path is required")
 		}
