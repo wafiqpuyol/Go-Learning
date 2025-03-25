@@ -1,6 +1,6 @@
 syntax = "proto3";
-
-option go_package = "./proto/gen;mainpb"; 
+import "user/user.proto";
+option go_package = "/proto/gen;main"; 
 package main;
 
 message HelloRequest {
@@ -11,9 +11,9 @@ message HelloRequest {
 message HelloResponse {
   string conf_message = 1;
   repeated string data = 2;
+  user.User user = 3;
 }
 
 service Greeter {
   rpc SayHello (HelloRequest) returns (HelloResponse) {}
 }
-
