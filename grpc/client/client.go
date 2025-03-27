@@ -27,16 +27,25 @@ func main() {
 	defer connection.Close()
 	fmt.Println("Connected to server")
 
-	// Create a Calculate client
+	// Create a RPC clients
 	calculateClient := mainpb.NewCalculateClient(connection)
+	greeterClient := mainpb.NewGreeterClient(connection)
 
-	// Call the Add rpc
+	// Create a context
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
+
+	// Call RPCs
 	res, err := calculateClient.Add(ctx, &mainpb.AddRequest{A: 40, B: 64})
 	if err != nil {
 		log.Fatalf("Error while calling Add RPC: %v", err)
 	}
+	log.Println("Result from Add():", res.Result)
 
-	log.Println("Result:", res.Result)
+	res1, err := greeterClient.SayHello(ctx, &mainpb.Empty{})
+	if err != nil {
+		log.Fatalf("Error while calling  RPC: %v", err)
+	}
+	log.Println("Result from SayHello():", res1.Greet)
+
 }

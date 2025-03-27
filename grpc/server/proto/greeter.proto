@@ -1,0 +1,15 @@
+syntax="proto3";
+
+import "proto/main.proto";
+
+package main;
+
+option go_package = "/proto/gen;mainpb";
+
+service Greeter {
+    rpc SayHello (main.Empty) returns (GreetingMsg) {};
+}
+
+message GreetingMsg {
+    string greet = 1;
+}

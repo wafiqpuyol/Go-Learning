@@ -14,11 +14,18 @@ import (
 type calculateServer struct {
 	pb.UnimplementedCalculateServer
 }
+type greeterServer struct {
+	pb.UnimplementedGreeterServer
+}
 
 func (s *calculateServer) Add(ctx context.Context, req *pb.AddRequest) (*pb.AddResponse, error) {
 	log.Println("Received request:", req.A, req.B)
 	result := req.A + req.B
 	return &pb.AddResponse{Result: result}, nil
+}
+
+func (s *greeterServer) SayHello(ctx context.Context, req *pb.Empty) (*pb.GreetingMsg, error) {
+	return &pb.GreetingMsg{Greet: "Hello Wafiq"}, nil
 }
 
 func main() {
@@ -43,6 +50,7 @@ func main() {
 
 	// Register the Calculate service with the server
 	pb.RegisterCalculateServer(grpcServer, &calculateServer{})
+	pb.RegisterGreeterServer(grpcServer, &greeterServer{})
 
 	// Start the server & listen for requests
 	if err := grpcServer.Serve(lis); err != nil {
