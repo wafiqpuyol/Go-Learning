@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package notification;
+
+option go_package = "proto/gen;notificationpb";
+
+
+service NotificationService {
+    rpc GetNotification (NotificationRequest) returns (stream NotificationResponse) {}
+}
+
+message NotificationRequest {
+    string user_id = 1;
+}
+
+message NotificationResponse {
+    string user_id = 1;
+    string message = 2;
+}
