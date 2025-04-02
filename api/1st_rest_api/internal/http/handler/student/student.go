@@ -29,6 +29,7 @@ func New() http.HandlerFunc {
 			return
 		}
 
+		// business logic
 		response.WriteJson(w, http.StatusOK, studentDetails)
 	}
 }

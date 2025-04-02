@@ -7,12 +7,8 @@ import (
 	"strings"
 
 	"github.com/go-playground/validator/v10"
+	"github.com/wafiqpuyol/Go-Learning/api/internal/types"
 )
-
-type Response struct {
-	Status string `json:"status"`
-	Error  string `json:"error"`
-}
 
 func WriteJson(w http.ResponseWriter, code int, data interface{}) error {
 	w.Header().Set("Content-Type", "application/json")
@@ -21,7 +17,7 @@ func WriteJson(w http.ResponseWriter, code int, data interface{}) error {
 	return json.NewEncoder(w).Encode(data)
 }
 
-func ValidationError(errs validator.ValidationErrors) Response {
+func ValidationError(errs validator.ValidationErrors) types.Response {
 	var errorMsgs []string
 	for _, err := range errs {
 		switch err.ActualTag() {
@@ -31,7 +27,7 @@ func ValidationError(errs validator.ValidationErrors) Response {
 			errorMsgs = append(errorMsgs, fmt.Sprintf("%s is invalid", err.Field()))
 		}
 	}
-	return Response{
+	return types.Response{
 		Status: "error",
 		Error:  strings.Join(errorMsgs, ", "),
 	}
