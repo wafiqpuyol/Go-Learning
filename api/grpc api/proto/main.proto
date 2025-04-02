@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package main;
+
+import "students.proto";
+
+option go_package = "internal/gen;mainpb";
+
+service TeacherService {
+    rpc CreateTeachers(Teachers) returns (Teachers) {}
+    rpc GetTeachers(GetTeacherRequest) returns (Teachers) {}
+    rpc UpdateTeachers(Teachers) returns (Teachers) {}
+    rpc DeleteTeachers(TeacherIds) returns (DeleteTeachersConfirmation) {}
+    rpc GetStudentsByClassTeacher (TeacherId) returns (Students);
+    rpc GetStudentCountByClassTeacher (TeacherId) returns (StudentCount);
+}
+
+message Teacher {
+    string id = 1;
+
+    // first_name must not contain special characters but can contain spaces
+    string first_name =2;
+    
+    // last_name must not contain special characters but can contain spaces
+    string last_name =3;
+    
+    // email must be a valid email address
+    // string email = 4;
+    string email =4;
+
+    // class must not contain special characters but can contain spaces
+    string class = 5;
+    
+    // subject must not contain special characters but can contain spaces
+    string subject = 7;
+}
+
+message Teachers {
+    repeated Teacher teacher = 1;
+}
+
+message TeacherId {
+    string id = 1;
+}
+
+message TeacherIds {
+    repeated TeacherId id = 1;
+}
+
+message GetTeacherRequest {
+    Teacher teacher = 1;
+    repeated SortField sort_by = 2;
+}
+
+message DeleteTeachersConfirmation {
+    string status = 1;
+    repeated string deleted_ids = 2;
+}
+
+message StudentCount {
+    bool status = 1;
+    int32 student_count = 2;
+}
